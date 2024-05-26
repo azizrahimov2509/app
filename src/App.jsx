@@ -37,7 +37,6 @@ function App() {
     <>
       <div>
         <div className="switchMode">
-          {/* Текст кнопки будет меняться в зависимости от текущего режима темы */}
           <button onClick={toggleTheme}>{themeText}</button>
         </div>
         <a href="https://vitejs.dev" target="_blank">
