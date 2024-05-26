@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       <div>
-        <div className="switchMode">
+        <div className="switchdarkMode">
           <button onClick={toggleTheme}>{themeText}</button>
         </div>
         <a href="https://vitejs.dev" target="_blank">
