@@ -9,11 +9,20 @@ function App() {
   const mode = useSelector((state) => state?.darkmode);
   const dispatch = useDispatch();
 
-  const [themeText, setThemeText] = useState("LightMode");
+  const [themeText, setThemeText] = useState("Darkmode");
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("themeMode");
+    if (savedMode === "dark") {
+      dispatch({ type: "CHANGE_MODE" });
+    }
+  }, [dispatch]);
 
   const toggleTheme = () => {
+    const newMode = mode ? "light" : "dark";
+    localStorage.setItem("themeMode", newMode);
     dispatch({ type: "CHANGE_MODE" });
-    setThemeText(mode ? "Darkmode" : "Light Mode");
+    setThemeText(mode ? "Light Mode" : "Darkmode");
   };
 
   useEffect(() => {
@@ -28,6 +37,7 @@ function App() {
     <>
       <div>
         <div className="switchMode">
+          {/* Текст кнопки будет меняться в зависимости от текущего режима темы */}
           <button onClick={toggleTheme}>{themeText}</button>
         </div>
         <a href="https://vitejs.dev" target="_blank">
