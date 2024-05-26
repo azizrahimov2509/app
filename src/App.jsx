@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
   const countValue = useSelector((state) => state?.count);
   const mode = useSelector((state) => state?.darkmode);
-
   const dispatch = useDispatch();
 
-  const toggleDarkMode = () => {
+  const [themeText, setThemeText] = useState("LightMode");
+
+  const toggleTheme = () => {
     dispatch({ type: "CHANGE_MODE" });
+    setThemeText(mode ? "Darkmode" : "Light Mode");
   };
 
   useEffect(() => {
@@ -26,7 +28,7 @@ function App() {
     <>
       <div>
         <div className="switchMode">
-          <button onClick={toggleDarkMode}>Darkmode</button>
+          <button onClick={toggleTheme}>{themeText}</button>
         </div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
