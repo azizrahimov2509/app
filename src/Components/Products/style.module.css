@@ -1,0 +1,28 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  row-gap: 50px;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  margin-bottom: 14px;
+  font-size: 20px;
+}
+
+.cardFooter svg {
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 50%;
+  zoom: 2;
+}
+
+.cardFooter svg:hover {
+  background-color: blue;
+  color: white;
+}

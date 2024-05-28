@@ -1,0 +1,46 @@
+.header {
+  padding: 20px 0;
+  background-color: blue;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-left: 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container nav ul {
+  list-style: none;
+  text-decoration: none;
+}
+a {
+  color: white;
+}
+
+.container nav ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+.logo {
+  font-size: 32px;
+}
+
+.list {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  font-size: 28px;
+}
+
+.storeBtn {
+  cursor: pointer;
+}
