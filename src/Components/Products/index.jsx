@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Badge, Button, Card } from "antd";
 import Title from "../Title";
-import { gridContainer, cardFooter } from "./style.module.css";
+import { gridContainer, cardFooter, img_container } from "./style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../store/ProductsSlice";
 import { addToCart } from "../../store/CartSlice";
@@ -90,12 +90,14 @@ export default function Products() {
                 </Card>
               ))
             ) : (
-              <img
-                src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
-                alt="loading"
-                width={800}
-                height={600}
-              />
+              <div className={img_container}>
+                <img
+                  src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
+                  alt="loading"
+                  width={800}
+                  height={600}
+                />
+              </div>
             )}
           </Card.Grid>
         </div>

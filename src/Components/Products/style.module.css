@@ -26,3 +26,11 @@
   background-color: blue;
   color: white;
 }
+
+.img_container {
+  width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
