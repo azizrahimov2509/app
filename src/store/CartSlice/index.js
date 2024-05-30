@@ -39,8 +39,34 @@ export const cartSlice = createSlice({
       }
       saveState(state);
     },
+    increment: (state, { payload }) => {
+      const item = state.items.find((item) => item.id === payload.id);
+      if (item) {
+        item.count += 1;
+      }
+      saveState(state);
+    },
+    decrement: (state, { payload }) => {
+      const item = state.items.find((item) => item.id === payload.id);
+      if (item) {
+        item.count -= 1;
+        if (item.count < 1) {
+          state.items = state.items.filter((item) => item.id !== payload.id);
+          state.addedItemIds = state.addedItemIds.filter(
+            (id) => id !== payload.id
+          );
+        }
+      }
+      saveState(state);
+    },
+    removeFromCart: (state, { payload }) => {
+      state.items = state.items.filter((item) => item.id !== payload.id);
+      state.addedItemIds = state.addedItemIds.filter((id) => id !== payload.id);
+      saveState(state);
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, increment, decrement, removeFromCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

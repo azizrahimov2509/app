@@ -2,16 +2,21 @@ import React, { useEffect } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Badge, Button, Card } from "antd";
 import Title from "../Title";
-import { gridContainer, cardFooter, img_container } from "./style.module.css";
+import {
+  gridContainer,
+  cardFooter,
+  img_container,
+  increm,
+  dicrem,
+} from "./style.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../store/ProductsSlice";
-import { addToCart } from "../../store/CartSlice";
+import { addToCart, increment, decrement } from "../../store/CartSlice";
 import { message } from "antd";
 
 export default function Products() {
   const products = useSelector((state) => state.products);
-  const addedItemIds = useSelector((state) => state.cart.addedItemIds);
-  const cartItems = useSelector((state) => state.cart.items);
+  const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,18 +25,15 @@ export default function Products() {
       .then((result) => dispatch(add(result)));
   }, [dispatch]);
 
-  const getItemCount = (id) => {
-    const item = cartItems.find((item) => item.id === id);
-    return item ? item.count : 0;
-  };
-
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "This is a success message",
+      content: "Product added to cart",
     });
   };
+
+  const findProductInCart = (id) => cart.find((item) => item.id === id);
 
   return (
     <>
@@ -42,53 +44,85 @@ export default function Products() {
 
           <Card.Grid className={gridContainer}>
             {products.length ? (
-              products.map(({ id, title, description, image, price }) => (
-                <Card
-                  hoverable
-                  key={id}
-                  style={{
-                    width: 400,
-                  }}
-                  cover={
-                    <img alt="example" src={image} width={400} height={400} />
-                  }
-                >
-                  <div className={cardFooter}>
-                    <h3>{price}$</h3>
+              products.map(({ id, title, description, image, price }) => {
+                const productInCart = findProductInCart(id);
+                return (
+                  <Card
+                    hoverable
+                    key={id}
+                    style={{
+                      width: 400,
+                    }}
+                    cover={
+                      <img alt="example" src={image} width={400} height={400} />
+                    }
+                  >
+                    <div className={cardFooter}>
+                      <h3>{price}$</h3>
 
-                    <Button
-                      onClick={() => {
-                        success();
-                        dispatch(
-                          addToCart({ id, title, description, image, price })
-                        );
-                      }}
-                      style={{
-                        background: "none", // прозрачный фон
-                        border: "none", // без рамки
-                        padding: 0, // без отступов
-                        cursor: "pointer", // чтобы курсор был в виде руки при наведении
-                      }}
-                    >
-                      <Badge count={getItemCount(id)}>
-                        <ShoppingCartOutlined
-                          style={{
-                            color: addedItemIds.includes(id)
-                              ? "white"
-                              : "black",
-                            background: addedItemIds.includes(id)
-                              ? "red"
-                              : "white",
-                            borderRadius: "50%",
-                            zoom: 1.7,
+                      {productInCart ? (
+                        <div>
+                          <Button
+                            onClick={() => dispatch(decrement({ id }))}
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            className={increm}
+                          >
+                            -
+                          </Button>
+                          <span style={{ padding: "0 3px" }}>
+                            {productInCart.count}
+                          </span>
+                          <Button
+                            onClick={() => dispatch(increment({ id }))}
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            className={dicrem}
+                          >
+                            +
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            success();
+                            dispatch(
+                              addToCart({
+                                id,
+                                title,
+                                description,
+                                image,
+                                price,
+                              })
+                            );
                           }}
-                        />
-                      </Badge>
-                    </Button>
-                  </div>
-                  <Card.Meta title={title} description={description} />
-                </Card>
-              ))
+                          style={{
+                            background: "none",
+                            border: "none",
+                            padding: 0,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <ShoppingCartOutlined
+                            style={{
+                              color: "black",
+                              zoom: 1.7,
+                            }}
+                          />
+                        </Button>
+                      )}
+                    </div>
+                    <Card.Meta
+                      title={title}
+                      description={
+                        description.split(" ").slice(0, 20).join(" ") + "..."
+                      }
+                    />
+                  </Card>
+                );
+              })
             ) : (
               <div className={img_container}>
                 <img
